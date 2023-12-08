@@ -1,10 +1,13 @@
-# Elecrow 7 Inch HMI Display Example Project
+# Elecrow 7 Inch HMI Display Example Project - 3D Printer Enclosure
 
 Example project for Arduino IDE Squareline Studio using the Elecrow 7 Inch ESP32 HMI Display
 
 ## Description
 
-The Elecrow 7" HMI display is an inexpensive yet surprisingly solid display. This is an example project I am working on for a 3D printer enclosure. The documentation for this board is still a moving target it seems but the company is fairly responsive. I will consolidate some of my findings here in hopes to help.
+The [Elecrow 7" ESP HMI display](https://www.elecrow.com/esp32-display-7-inch-hmi-display-rgb-tft-lcd-touch-screen-support-lvgl.html) is an inexpensive yet surprisingly solid display. This is an example project I am working on for a 3D printer enclosure. The documentation for this board is still a moving target it seems but the company is fairly responsive. I will consolidate some of my findings here in hopes to help.
+
+![loading screen](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/LoadingScreen.png)
+![main screen](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/MainScreen.png)
 
 ## Getting Started
 
