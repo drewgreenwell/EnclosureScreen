@@ -62,6 +62,5 @@ lv_obj_set_style_text_font(ui_lblLoading, &lv_font_montserrat_24, LV_PART_MAIN| 
 
 lv_obj_add_event_cb(ui_imgWifi, ui_event_imgWifi, LV_EVENT_ALL, NULL);
 lv_obj_add_event_cb(ui_imgMosquitto, ui_event_imgMosquitto, LV_EVENT_ALL, NULL);
-lv_obj_add_event_cb(ui_screenLoading, ui_event_screenLoading, LV_EVENT_ALL, NULL);
 
 }

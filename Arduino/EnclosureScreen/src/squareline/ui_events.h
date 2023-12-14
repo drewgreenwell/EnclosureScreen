@@ -10,8 +10,6 @@
 extern "C" {
 #endif
 
-void loadScreenIsReady(lv_event_t * e);
-
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

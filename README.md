@@ -13,9 +13,9 @@ The [Elecrow 7" ESP HMI display](https://www.elecrow.com/esp32-display-7-inch-hm
 
 ### Dependencies
 
-* GFX Library for Arduino - Currently using version provided by Elecrow
-* lvgl - I am using 8.3.11 with this project. It is a good idea to stay close to squareline
-* ESP3S3 Dev Board - Currently using ESP32 Board version 2.0.3 recommended by Elecrow
+* LovyanGFX
+* lvgl - I am using the latest available (8.3.11 with this project). It is a good idea to stay close to squareline
+* ESP32S3 Dev Board - Currently using latest version available (2.0.14)
 
 ### Installing
 

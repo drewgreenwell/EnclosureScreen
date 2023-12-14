@@ -10,13 +10,12 @@
 extern "C" {
 #endif
 
-    #include "lvgl.h"
+    #include <lvgl.h>
 
 #include "ui_helpers.h"
 #include "ui_events.h"
 // SCREEN: ui_screenLoading
 void ui_screenLoading_screen_init(void);
-void ui_event_screenLoading( lv_event_t * e);
 extern lv_obj_t *ui_screenLoading;
 void ui_event_imgWifi( lv_event_t * e);
 extern lv_obj_t *ui_imgWifi;
@@ -35,9 +34,11 @@ extern lv_obj_t *ui_btnEnderLight;
 extern lv_obj_t *ui_chartPrusa;
 extern lv_obj_t *ui_lblPrusaTemp;
 extern lv_obj_t *ui_lblEnderTemp;
+extern lv_obj_t *ui_lblPrusaHumididty;
 extern lv_obj_t *ui_chartEnder;
 extern lv_obj_t *ui_btnPrusa;
 extern lv_obj_t *ui_btnEnder;
+extern lv_obj_t *ui_lblEnderHumididty;
 extern lv_obj_t *ui_SettingsTab;
 extern lv_obj_t *ui_colorWheelPrusaLight;
 extern lv_obj_t *ui_colorWheelEnderLight;
@@ -57,12 +58,12 @@ LV_IMG_DECLARE( ui_img_mqtt_grey_png);   // assets/mqtt_grey.png
 LV_IMG_DECLARE( ui_img_mqtt_png);   // assets/mqtt.png
 LV_IMG_DECLARE( ui_img_light_on_png);   // assets/light_on.png
 LV_IMG_DECLARE( ui_img_light_white_png);   // assets/light_white.png
-LV_IMG_DECLARE( ui_img_prusa2_png);   // assets/prusa2.png
-LV_IMG_DECLARE( ui_img_ender2_png);   // assets/ender2.png
+LV_IMG_DECLARE( ui_img_prusamk4_png);   // assets/prusamk4.png
+LV_IMG_DECLARE( ui_img_ender5s1_png);   // assets/ender5s1.png
 LV_IMG_DECLARE( ui_img_wifi_3_small_png);   // assets/wifi_3_small.png
 LV_IMG_DECLARE( ui_img_mqtt_small_png);   // assets/mqtt_small.png
-LV_IMG_DECLARE( ui_img_ender5s1_png);   // assets/ender5s1.png
-LV_IMG_DECLARE( ui_img_prusamk4_png);   // assets/prusamk4.png
+LV_IMG_DECLARE( ui_img_ender2_png);   // assets/ender2.png
+LV_IMG_DECLARE( ui_img_prusa2_png);   // assets/prusa2.png
 LV_IMG_DECLARE( ui_img_wifi_2_png);   // assets/wifi_2.png
 
 

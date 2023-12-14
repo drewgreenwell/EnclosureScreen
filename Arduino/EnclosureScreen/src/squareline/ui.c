@@ -11,7 +11,6 @@
 
 // SCREEN: ui_screenLoading
 void ui_screenLoading_screen_init(void);
-void ui_event_screenLoading( lv_event_t * e);
 lv_obj_t *ui_screenLoading;
 void ui_event_imgWifi( lv_event_t * e);
 lv_obj_t *ui_imgWifi;
@@ -32,9 +31,11 @@ lv_obj_t *ui_btnEnderLight;
 lv_obj_t *ui_chartPrusa;
 lv_obj_t *ui_lblPrusaTemp;
 lv_obj_t *ui_lblEnderTemp;
+lv_obj_t *ui_lblPrusaHumididty;
 lv_obj_t *ui_chartEnder;
 lv_obj_t *ui_btnPrusa;
 lv_obj_t *ui_btnEnder;
+lv_obj_t *ui_lblEnderHumididty;
 lv_obj_t *ui_SettingsTab;
 lv_obj_t *ui_colorWheelPrusaLight;
 lv_obj_t *ui_colorWheelEnderLight;
@@ -46,11 +47,11 @@ lv_obj_t *ui_lblTime;
 lv_obj_t *ui_btnMosquitto;
 lv_obj_t *ui_lblIpAddress;
 lv_obj_t *ui____initial_actions0;
+const lv_img_dsc_t *ui_imgset_ender[1] = {&ui_img_ender2_png};
 const lv_img_dsc_t *ui_imgset_ender5s[1] = {&ui_img_ender5s1_png};
+const lv_img_dsc_t *ui_imgset_prusa[1] = {&ui_img_prusa2_png};
 const lv_img_dsc_t *ui_imgset_prusamk[1] = {&ui_img_prusamk4_png};
 const lv_img_dsc_t *ui_imgset_wifi_[3] = {&ui_img_wifi_1_png, &ui_img_wifi_2_png, &ui_img_wifi_3_png};
-const lv_img_dsc_t *ui_imgset_ender[1] = {&ui_img_ender2_png};
-const lv_img_dsc_t *ui_imgset_prusa[1] = {&ui_img_prusa2_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -63,12 +64,6 @@ const lv_img_dsc_t *ui_imgset_prusa[1] = {&ui_img_prusa2_png};
 ///////////////////// ANIMATIONS ////////////////////
 
 ///////////////////// FUNCTIONS ////////////////////
-void ui_event_screenLoading( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_READY) {
-      loadScreenIsReady( e );
-}
-}
 void ui_event_imgWifi( lv_event_t * e) {
     lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
 if ( event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target,LV_STATE_CHECKED)  ) {

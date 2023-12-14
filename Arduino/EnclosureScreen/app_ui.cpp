@@ -1,18 +1,16 @@
 /*
   Helper methods for updating the enclosure screen ui. Most of these are just calls to ui files in src or lvlg.h
 */
-#include <lvgl.h>
-#include "src/ui.h"
-#include "src/ui_helpers.h"
+#include "app_ui.h"
+#include <Arduino.h>
+#include "src/squareline/ui.h"
+#include "src/squareline/ui_helpers.h"
+
+
+bool loadComplete = false;
 
 lv_chart_series_t* enderSeries1;
 lv_chart_series_t* enderSeries2;
-
-void thisui_init() {
-  enderSeries1 = getChartSeries1(ui_chartEnder);
-  enderSeries2 = getChartSeries2(ui_chartEnder, enderSeries1);
-
-}
 
 void loadingScreenIsReady( lv_event_t * e){
   Serial.println("Loading screen is ready");
@@ -42,6 +40,10 @@ void setIpText(const char *val) {
    lv_label_set_text(ui_lblIpAddress, val);
 }
 
+void setMosquittoIcon(bool connected) {
+  _ui_state_modify(ui_imgMosquitto, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
+}
+
 void setChartSeriesPoint(lv_chart_series_t * series, int index, int value){
   series->y_points[index] = value;
 }
@@ -69,7 +71,7 @@ lv_chart_series_t* getChartSeries2(lv_obj_t* chart, lv_chart_series_t* series1){
   return series2;
 }
 
-void setChartSeries1Data(lv_obj_t* chart, boolean toggle){
+void setChartSeries1Data(lv_obj_t* chart, bool toggle){
 
   lv_chart_series_t* ser  = getChartSeries1(chart);
   lv_coord_t value_array1[] = { 80,90,70,66,50,65,79,80,100,95 };
@@ -89,3 +91,9 @@ void setChartSeries1Data(lv_obj_t* chart, boolean toggle){
     lv_chart_set_points(chart, ui_chartEnder_series_2, series).
     lv_chart_refresh(chart);
 }*/
+
+
+void appui_init() {
+  enderSeries1 = getChartSeries1(ui_chartEnder);
+  enderSeries2 = getChartSeries2(ui_chartEnder, enderSeries1);
+}

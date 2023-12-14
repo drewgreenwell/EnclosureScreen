@@ -10,12 +10,12 @@ SET(SOURCES screens/ui_screenLoading.c
     images/ui_img_mqtt_png.c
     images/ui_img_light_on_png.c
     images/ui_img_light_white_png.c
-    images/ui_img_prusa2_png.c
-    images/ui_img_ender2_png.c
+    images/ui_img_prusamk4_png.c
+    images/ui_img_ender5s1_png.c
     images/ui_img_wifi_3_small_png.c
     images/ui_img_mqtt_small_png.c
-    images/ui_img_ender5s1_png.c
-    images/ui_img_prusamk4_png.c
+    images/ui_img_ender2_png.c
+    images/ui_img_prusa2_png.c
     images/ui_img_wifi_2_png.c)
 
 add_library(ui ${SOURCES})

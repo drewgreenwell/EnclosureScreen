@@ -1,5 +1,8 @@
+#include "time.h"
+#include <Arduino.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include "app_ui.h"
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);

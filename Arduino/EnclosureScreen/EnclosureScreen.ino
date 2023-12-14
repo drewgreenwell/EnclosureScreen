@@ -1,12 +1,24 @@
-#include "src/ui.h"
-#include "src/ui_helpers.h"
-#include <Arduino_GFX_Library.h>
 #include <WiFi.h>
-#include <U8g2lib.h>
+// #include <U8g2lib.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <SD.h>
 #include <FS.h>
+#include "src/squareline/ui.h"
+#include "src/squareline/ui_helpers.h"
+#include "display_seven.h"
+#include "app_ui.h"
+#include "mqtt.h"
+#include "time.h"
+#include "led_strip.h"
+/*
+1 - ROTATION_RIGHT
+2 - ROTATION_NORMAL
+3 - ROTATION_LEFT
+4 - ROTATION_INVERTED
+*/
+#define INPUT_TOUCH_ROTATION ROTATION_INVERTED
+#include "src/touch.h"
 
 // serial communciation
 #define SERIAL_BAUD 115200
@@ -34,32 +46,6 @@ IPAddress dns1(192, 168, 1, 1);
 IPAddress dns2(8, 8, 8, 8);
 #endif
 
-// This display is horizontal by default. 1=90 degrees 2=180 3=270
-#define SCREEN_ROTATION 2
-#define SCREEN_WIDTH    800
-#define SCREEN_HEIGHT   480
-
-
-// initialize databus
-Arduino_ESP32RGBPanel *bus = new Arduino_ESP32RGBPanel(
-  GFX_NOT_DEFINED /* CS */, GFX_NOT_DEFINED /* SCK */, GFX_NOT_DEFINED /* SDA */,
-  41 /* DE */, 40 /* VSYNC */, 39 /* HSYNC */, 0 /* PCLK */,
-  14 /* R0 */, 21 /* R1 */, 47 /* R2 */, 48 /* R3 */, 45 /* R4 */,
-  9 /* G0 */, 46 /* G1 */, 3 /* G2 */, 8 /* G3 */, 16 /* G4 */, 1 /* G5 */,
-  15 /* B0 */, 7 /* B1 */, 6 /* B2 */, 5 /* B3 */, 4 /* B4 */
-);
-
-// initialize graphics
-// 7 inch 50 pin 800x480
-Arduino_RPi_DPI_RGBPanel *lcd = new Arduino_RPi_DPI_RGBPanel(
-  bus,
-  SCREEN_WIDTH /* width */, 0 /* hsync_polarity */, 210 /* hsync_front_porch */, 1 /* hsync_pulse_width */, 46 /* hsync_back_porch */,
-  SCREEN_HEIGHT /* height */, 0 /* vsync_polarity */, 22 /* vsync_front_porch */, 1 /* vsync_pulse_width */, 23 /* vsync_back_porch */,
-  0 /* pclk_active_neg */, 16000000 /* prefer_speed */, true /* auto_flush */);
-
-// led backlight
-#define TFT_BL 2
-
 //SD card
 #define SD_MOSI 11
 #define SD_MISO 13
@@ -77,61 +63,30 @@ SPIClass& spi = SPI;
 uint16_t touchCalibration_x0 = 300, touchCalibration_x1 = 3600, touchCalibration_y0 = 300, touchCalibration_y1 = 3600;
 uint8_t  touchCalibration_rotate = 1, touchCalibration_invert_x = 2, touchCalibration_invert_y = 0;
 
-#include "src/touch.h"
-
-static uint32_t screenWidth;
-static uint32_t screenHeight;
-static lv_disp_draw_buf_t draw_buf;
-//static lv_color_t *disp_draw_buf;
-static lv_color_t disp_draw_buf[SCREEN_WIDTH * SCREEN_HEIGHT / 15];
-static lv_disp_drv_t disp_drv;
 
 WiFiClient wifiClient;
 
 #define MSG_BUFFER_SIZE	(50)
 char msg[MSG_BUFFER_SIZE];
 
-boolean loadComplete = false;
-
 void setup() {
 
   Serial.begin(SERIAL_BAUD);
   Serial.println( "begin setup" );
-  lcd->begin();
-  lcd->fillScreen(BLACK);
-  lcd->setTextSize(2);
-  lcd->setRotation(SCREEN_ROTATION);
-  delay(300);
 
-#ifdef TFT_BL
-  Serial.println( "init TFT BL" );
-  pinMode(TFT_BL, OUTPUT);
-  digitalWrite(TFT_BL, HIGH);
-  ledcSetup(1, 300, 8);
-  ledcAttachPin(TFT_BL, 1);
-  ledcWrite(1, 255); /* Screen brightness can be modified by adjusting this parameter. (0-255) */
+  display_setup();
 
-#endif
   Serial.println( "init lvgl" );
   lv_init();
+
+  display_register();
 
   // Init touch device
   Serial.println( "init touch" );
   touch_init();
 
-  screenWidth = lcd->width();
-  screenHeight = lcd->height();
   
-  lv_disp_draw_buf_init(&draw_buf, disp_draw_buf, NULL, screenWidth * screenHeight / 15); //4
-  Serial.println( "init display" );
-  /* Initialize the display */
-  lv_disp_drv_init(&disp_drv);
-  /* Change the following line to your display resolution */
-  disp_drv.hor_res = screenWidth;
-  disp_drv.ver_res = screenHeight;
-  disp_drv.flush_cb = disp_flush;
-  disp_drv.draw_buf = &draw_buf;
-  lv_disp_drv_register(&disp_drv);
+
   Serial.println( "Register touchpad" );
   static lv_indev_drv_t indev_drv;
   lv_indev_drv_init(&indev_drv);
@@ -145,7 +100,7 @@ void setup() {
   ui_init();
 
   // setup variables and do any prep
-  thisui_init();
+  appui_init();
 
   // LV_IMG_DECLARE(bulb_gif);
   // lv_gif_set_src(ui_imgLoading, &bulb_gif);
@@ -171,13 +126,6 @@ void setup() {
   Serial.println("WiFi is connected");
   setLoadingPercent(100);
 #endif
-
-  // lcd->fillScreen(BLACK);
-  // lcd->setCursor(10, 30);
-  // lcd->setTextColor(WHITE);
-  // lcd->drawRect(0, 0, 800, 480, ORANGE);
-  // lcd->println("Hello World!");
-  
 
 }
 
@@ -219,20 +167,7 @@ void loop() {
 
 }
 
-/* Display flushing */
-void disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
-{
-  uint32_t w = (area->x2 - area->x1) + 1;
-  uint32_t h = (area->y2 - area->y1) + 1;
 
-#if (LV_COLOR_16_SWAP != 0)
-  lcd->draw16bitBeRGBBitmap(area->x1, area->y1, (uint16_t *)&color_p->full, w, h);
-#else
-  lcd->draw16bitRGBBitmap(area->x1, area->y1, (uint16_t *)&color_p->full, w, h);
-#endif
-
-  lv_disp_flush_ready(disp);
-}
 
 // todo: check for bad input on startup
 bool touchValid = false;
@@ -245,7 +180,7 @@ void touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (touch_touched())
     {
       data->state = LV_INDEV_STATE_PR;
-      if(touchValid == false && (touch_last_x > screenWidth || touch_last_y > screenHeight)){
+      if(touchValid == false && (touch_last_x > SCREEN_WIDTH || touch_last_y > SCREEN_HEIGHT)){
         touchTicks += 1; 
         if (touchTicks > invalidTickLimit) {
           Serial.println("Touch Screen readings are not valid. Restarting..");
