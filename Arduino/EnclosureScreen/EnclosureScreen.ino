@@ -17,6 +17,7 @@
 3 - ROTATION_LEFT
 4 - ROTATION_INVERTED
 */
+// screen rotation is currently set in display_seven.h
 #define INPUT_TOUCH_ROTATION ROTATION_INVERTED
 #include "src/touch.h"
 

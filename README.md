@@ -16,6 +16,10 @@ The [Elecrow 7" ESP HMI display](https://www.elecrow.com/esp32-display-7-inch-hm
 * LovyanGFX
 * lvgl - I am using the latest available (8.3.11 with this project). It is a good idea to stay close to squareline
 * ESP32S3 Dev Board - Currently using latest version available (2.0.14)
+* These dependencies can be disabled by adjusting the #define statements at the top of the sketch
+    * PubSubClient, ESP32Ping - For MQTT
+    * NTPClient, WiFiUdp - For Time
+    * Adafruit_NeoPixel - for led strip functionality
 
 ### Installing
 
