@@ -12,10 +12,7 @@
 // SCREEN: ui_screenLoading
 void ui_screenLoading_screen_init(void);
 lv_obj_t *ui_screenLoading;
-void ui_event_imgWifi( lv_event_t * e);
 lv_obj_t *ui_imgWifi;
-lv_obj_t *ui_imgSystem;
-void ui_event_imgMosquitto( lv_event_t * e);
 lv_obj_t *ui_imgMosquitto;
 lv_obj_t *ui_barLoading;
 lv_obj_t *ui_lblLoading;
@@ -26,32 +23,28 @@ void ui_screenMain_screen_init(void);
 lv_obj_t *ui_screenMain;
 lv_obj_t *ui_tabMain;
 lv_obj_t *ui_StatusTab;
-lv_obj_t *ui_btnPrusaLight;
-lv_obj_t *ui_btnEnderLight;
+lv_obj_t *ui_pnlTop;
+lv_obj_t *ui_lblTopTitle;
+lv_obj_t *ui_lblTopHumidity;
+lv_obj_t *ui_lblTopTemp;
 lv_obj_t *ui_chartPrusa;
-lv_obj_t *ui_lblPrusaTemp;
-lv_obj_t *ui_lblEnderTemp;
-lv_obj_t *ui_lblPrusaHumididty;
 lv_obj_t *ui_chartEnder;
-lv_obj_t *ui_btnPrusa;
-lv_obj_t *ui_btnEnder;
-lv_obj_t *ui_lblEnderHumididty;
+lv_obj_t *ui_pnlBottom;
+lv_obj_t *ui_lblBottomTitle;
+lv_obj_t *ui_lblBottomHumidity;
+lv_obj_t *ui_lblBottomTemp;
 lv_obj_t *ui_SettingsTab;
 lv_obj_t *ui_colorWheelPrusaLight;
 lv_obj_t *ui_colorWheelEnderLight;
 lv_obj_t *ui_lblEnderLightColor;
 lv_obj_t *ui_lblPrusaLightColor;
 lv_obj_t *ui_pnlStatus;
-lv_obj_t *ui_btnWifi;
 lv_obj_t *ui_lblTime;
-lv_obj_t *ui_btnMosquitto;
 lv_obj_t *ui_lblIpAddress;
+lv_obj_t *ui_lblMosquitto;
+lv_obj_t *ui_lblWifi;
 lv_obj_t *ui____initial_actions0;
-const lv_img_dsc_t *ui_imgset_ender[1] = {&ui_img_ender2_png};
-const lv_img_dsc_t *ui_imgset_ender5s[1] = {&ui_img_ender5s1_png};
-const lv_img_dsc_t *ui_imgset_prusa[1] = {&ui_img_prusa2_png};
-const lv_img_dsc_t *ui_imgset_prusamk[1] = {&ui_img_prusamk4_png};
-const lv_img_dsc_t *ui_imgset_wifi_[3] = {&ui_img_wifi_1_png, &ui_img_wifi_2_png, &ui_img_wifi_3_png};
+const lv_img_dsc_t *ui_imgset_wifi_[1] = {&ui_img_wifi_1_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -64,18 +57,6 @@ const lv_img_dsc_t *ui_imgset_wifi_[3] = {&ui_img_wifi_1_png, &ui_img_wifi_2_png
 ///////////////////// ANIMATIONS ////////////////////
 
 ///////////////////// FUNCTIONS ////////////////////
-void ui_event_imgWifi( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target,LV_STATE_CHECKED)  ) {
-      _ui_image_set_property(ui_imgWifi, _UI_IMAGE_PROPERTY_IMAGE,& ui_img_wifi_3_png);
-}
-}
-void ui_event_imgMosquitto( lv_event_t * e) {
-    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
-if ( event_code == LV_EVENT_VALUE_CHANGED &&  lv_obj_has_state(target,LV_STATE_CHECKED)  ) {
-      _ui_image_set_property(ui_imgMosquitto, _UI_IMAGE_PROPERTY_IMAGE,& ui_img_mqtt_png);
-}
-}
 
 ///////////////////// SCREENS ////////////////////
 

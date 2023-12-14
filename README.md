@@ -46,3 +46,17 @@ I've found these settings work best with this display in Arduino IDE
 * USB Mode: Hardware CDC and JTAG
 
 
+### Helpful References
+
+#### GPIO Ref
+![GPIO-D](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/gpio.png)
+https://forum.elecrow.com/discussion/524/elecrow-5-inch-esp32-board-external-buttons-via-gpio-and-uart0-ports
+
+#### Outer Dimemnsions
+![CAD](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/7inch-hmi-dimensions.png)
+https://www.elecrow.com/download/product/ESP32_Display/7.0inch/7.0inch_HMI_Outline_Dimensions.pdf
+
+#### Links
+Wiki - https://www.elecrow.com/wiki/index.php?title=ESP32_Display_7.0-inch_HMI_Arduino_Tutorial
+Elecrow Squareline Tutorial - https://www.elecrow.com/blog/create-a-stunning-ui-with-squareline-studio-for-esp32-display-lvgl-tutorial.html
+

@@ -1,16 +1,13 @@
 #include <WiFi.h>
-// #include <U8g2lib.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
-#include <FS.h>
+// #include <Wire.h>
 #include "src/squareline/ui.h"
 #include "src/squareline/ui_helpers.h"
-#include "display_seven.h"
-#include "app_ui.h"
-#include "mqtt.h"
-#include "time.h"
-#include "led_strip.h"
+#include "display_seven.h"  // Elecrow 7" HMI setup
+#include "app_ui.h"         // ui helpers specific to this app
+#include "app_mqtt.h"       // mqtt pub sub functionality
+#include "app_time.h"       // ntp client
+#include "app_led_strip.h"  // led using adafruit neopixel
+#include "app_sd.h"         // SD card setup and helpers
 /*
 1 - ROTATION_RIGHT
 2 - ROTATION_NORMAL
@@ -47,11 +44,6 @@ IPAddress dns1(192, 168, 1, 1);
 IPAddress dns2(8, 8, 8, 8);
 #endif
 
-//SD card
-#define SD_MOSI 11
-#define SD_MISO 13
-#define SD_SCK  12
-#define SD_CS   10
 // audio
 #define I2S_DOUT 17
 #define I2S_BCLK 42
@@ -60,10 +52,8 @@ IPAddress dns2(8, 8, 8, 8);
 #define Z_THRESHOLD 350 // Touch pressure threshold for validating touches
 #define _RAWERR 20 // Deadband error allowed in successive position samples
 
-SPIClass& spi = SPI;
-uint16_t touchCalibration_x0 = 300, touchCalibration_x1 = 3600, touchCalibration_y0 = 300, touchCalibration_y1 = 3600;
-uint8_t  touchCalibration_rotate = 1, touchCalibration_invert_x = 2, touchCalibration_invert_y = 0;
-
+// uint16_t touchCalibration_x0 = 300, touchCalibration_x1 = 3600, touchCalibration_y0 = 300, touchCalibration_y1 = 3600;
+// uint8_t  touchCalibration_rotate = 1, touchCalibration_invert_x = 2, touchCalibration_invert_y = 0;
 
 WiFiClient wifiClient;
 
@@ -85,9 +75,7 @@ void setup() {
   // Init touch device
   Serial.println( "init touch" );
   touch_init();
-
   
-
   Serial.println( "Register touchpad" );
   static lv_indev_drv_t indev_drv;
   lv_indev_drv_init(&indev_drv);
@@ -103,6 +91,7 @@ void setup() {
   // setup variables and do any prep
   appui_init();
 
+  // sd_setup();
   // LV_IMG_DECLARE(bulb_gif);
   // lv_gif_set_src(ui_imgLoading, &bulb_gif);
 
@@ -236,10 +225,10 @@ void WiFiEvent(WiFiEvent_t event){
           Serial.print("Obtained IP address: ");
           IPAddress localIp = WiFi.localIP();
           Serial.println(localIp);
+          setIpText(localIp.toString().c_str());
           if(!loadComplete){
             _ui_state_modify(ui_imgWifi, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
             setLoadingPercent(wifiProgress);
-            setIpText(localIp.toString().c_str());
           }
         break;
     }

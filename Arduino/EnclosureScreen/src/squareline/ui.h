@@ -17,10 +17,7 @@ extern "C" {
 // SCREEN: ui_screenLoading
 void ui_screenLoading_screen_init(void);
 extern lv_obj_t *ui_screenLoading;
-void ui_event_imgWifi( lv_event_t * e);
 extern lv_obj_t *ui_imgWifi;
-extern lv_obj_t *ui_imgSystem;
-void ui_event_imgMosquitto( lv_event_t * e);
 extern lv_obj_t *ui_imgMosquitto;
 extern lv_obj_t *ui_barLoading;
 extern lv_obj_t *ui_lblLoading;
@@ -29,42 +26,30 @@ void ui_screenMain_screen_init(void);
 extern lv_obj_t *ui_screenMain;
 extern lv_obj_t *ui_tabMain;
 extern lv_obj_t *ui_StatusTab;
-extern lv_obj_t *ui_btnPrusaLight;
-extern lv_obj_t *ui_btnEnderLight;
+extern lv_obj_t *ui_pnlTop;
+extern lv_obj_t *ui_lblTopTitle;
+extern lv_obj_t *ui_lblTopHumidity;
+extern lv_obj_t *ui_lblTopTemp;
 extern lv_obj_t *ui_chartPrusa;
-extern lv_obj_t *ui_lblPrusaTemp;
-extern lv_obj_t *ui_lblEnderTemp;
-extern lv_obj_t *ui_lblPrusaHumididty;
 extern lv_obj_t *ui_chartEnder;
-extern lv_obj_t *ui_btnPrusa;
-extern lv_obj_t *ui_btnEnder;
-extern lv_obj_t *ui_lblEnderHumididty;
+extern lv_obj_t *ui_pnlBottom;
+extern lv_obj_t *ui_lblBottomTitle;
+extern lv_obj_t *ui_lblBottomHumidity;
+extern lv_obj_t *ui_lblBottomTemp;
 extern lv_obj_t *ui_SettingsTab;
 extern lv_obj_t *ui_colorWheelPrusaLight;
 extern lv_obj_t *ui_colorWheelEnderLight;
 extern lv_obj_t *ui_lblEnderLightColor;
 extern lv_obj_t *ui_lblPrusaLightColor;
 extern lv_obj_t *ui_pnlStatus;
-extern lv_obj_t *ui_btnWifi;
 extern lv_obj_t *ui_lblTime;
-extern lv_obj_t *ui_btnMosquitto;
 extern lv_obj_t *ui_lblIpAddress;
+extern lv_obj_t *ui_lblMosquitto;
+extern lv_obj_t *ui_lblWifi;
 extern lv_obj_t *ui____initial_actions0;
 
 LV_IMG_DECLARE( ui_img_wifi_1_png);   // assets/wifi_1.png
-LV_IMG_DECLARE( ui_img_wifi_3_png);   // assets/wifi_3.png
-LV_IMG_DECLARE( ui_img_gear_grey_png);   // assets/gear_grey.png
 LV_IMG_DECLARE( ui_img_mqtt_grey_png);   // assets/mqtt_grey.png
-LV_IMG_DECLARE( ui_img_mqtt_png);   // assets/mqtt.png
-LV_IMG_DECLARE( ui_img_light_on_png);   // assets/light_on.png
-LV_IMG_DECLARE( ui_img_light_white_png);   // assets/light_white.png
-LV_IMG_DECLARE( ui_img_prusamk4_png);   // assets/prusamk4.png
-LV_IMG_DECLARE( ui_img_ender5s1_png);   // assets/ender5s1.png
-LV_IMG_DECLARE( ui_img_wifi_3_small_png);   // assets/wifi_3_small.png
-LV_IMG_DECLARE( ui_img_mqtt_small_png);   // assets/mqtt_small.png
-LV_IMG_DECLARE( ui_img_ender2_png);   // assets/ender2.png
-LV_IMG_DECLARE( ui_img_prusa2_png);   // assets/prusa2.png
-LV_IMG_DECLARE( ui_img_wifi_2_png);   // assets/wifi_2.png
 
 
 
