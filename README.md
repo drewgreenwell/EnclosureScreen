@@ -39,7 +39,7 @@ I've found these settings work best with this display in Arduino IDE
 * Flash mode: QIO 80MHz
 * Arduino Runs on: Core 1
 * USB firmware MSC On Boot: Disabled
-* Partition Scheme: Hude APP (3MB No OTA/1MB SPIFFS)
+* Partition Scheme: Huge APP (3MB No OTA/1MB SPIFFS)
 * PSRAM: OPI PSRAM
 * Upload Mode: UART0 / Hardware CDC
 * Upload Speed 460800
