@@ -14,6 +14,7 @@ extern "C" {
 
 #include "ui_helpers.h"
 #include "ui_events.h"
+void Grow_Animation( lv_obj_t *TargetObject, int delay);
 // SCREEN: ui_screenLoading
 void ui_screenLoading_screen_init(void);
 extern lv_obj_t *ui_screenLoading;
@@ -46,6 +47,11 @@ extern lv_obj_t *ui_lblTime;
 extern lv_obj_t *ui_lblIpAddress;
 extern lv_obj_t *ui_lblMosquitto;
 extern lv_obj_t *ui_lblWifi;
+// SCREEN: ui_screenScreenSaver
+void ui_screenScreenSaver_screen_init(void);
+void ui_event_screenScreenSaver( lv_event_t * e);
+extern lv_obj_t *ui_screenScreenSaver;
+extern lv_obj_t *ui_spinSaver;
 extern lv_obj_t *ui____initial_actions0;
 
 LV_IMG_DECLARE( ui_img_wifi_1_png);   // assets/wifi_1.png

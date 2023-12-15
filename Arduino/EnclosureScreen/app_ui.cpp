@@ -1,6 +1,7 @@
 /*
   Helper methods for updating the enclosure screen ui. Most of these are just calls to ui files in src or lvlg.h
 */
+#include "app_settings.h"
 #include "app_ui.h"
 #include <Arduino.h>
 #include "src/squareline/ui.h"
@@ -12,12 +13,27 @@ bool loadComplete = false;
 lv_chart_series_t* enderSeries1;
 lv_chart_series_t* enderSeries2;
 
-void loadingScreenIsReady( lv_event_t * e){
-  Serial.println("Loading screen is ready");
+void appui_init() {
+  enderSeries1 = getChartSeries1(ui_chartEnder);
+  enderSeries2 = getChartSeries2(ui_chartEnder, enderSeries1);
 }
 
 void changeToMainScreen( ) {
-    _ui_screen_change( &ui_screenMain, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_screenMain_screen_init);
+   _ui_screen_change( &ui_screenMain, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_screenMain_screen_init);
+   // getFreeMemory();
+}
+
+void changeToScreenSaverScreen() {
+  _ui_screen_change( &ui_screenScreenSaver, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_screenScreenSaver_screen_init);
+  // getFreeMemory();
+}
+
+uint32_t getFreeMemory() {
+  uint32_t mem = esp_get_free_heap_size();
+  Serial.print("Free Memory ");
+  Serial.print(mem);
+  Serial.println(" bytes");
+  return mem;
 }
 
 void setLoadingPercent( int value ) {
@@ -40,8 +56,12 @@ void setIpText(const char *val) {
    lv_label_set_text(ui_lblIpAddress, val);
 }
 
-void setMosquittoIcon(bool connected) {
+void setMosquittoState(bool connected) {
   _ui_state_modify(ui_imgMosquitto, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
+}
+
+void setWifiState(bool connected) {
+  _ui_state_modify(ui_imgWifi, LV_STATE_CHECKED, _UI_MODIFY_STATE_TOGGLE);
 }
 
 void setChartSeriesPoint(lv_chart_series_t * series, int index, int value){
@@ -91,9 +111,3 @@ void setChartSeries1Data(lv_obj_t* chart, bool toggle){
     lv_chart_set_points(chart, ui_chartEnder_series_2, series).
     lv_chart_refresh(chart);
 }*/
-
-
-void appui_init() {
-  enderSeries1 = getChartSeries1(ui_chartEnder);
-  enderSeries2 = getChartSeries2(ui_chartEnder, enderSeries1);
-}

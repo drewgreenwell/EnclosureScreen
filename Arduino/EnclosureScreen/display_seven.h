@@ -5,11 +5,6 @@
 
 #define LGFX_USE_V1
 
-#define SCREEN_ROTATION 2     // 0=0 1=90 2=180 3=270
-#define SCREEN_WIDTH    800
-#define SCREEN_HEIGHT   480
-#define TFT_BL 2
-
 #include <LovyanGFX.hpp>
 #include <lgfx/v1/platforms/esp32s3/Panel_RGB.hpp>
 #include <lgfx/v1/platforms/esp32s3/Bus_RGB.hpp>

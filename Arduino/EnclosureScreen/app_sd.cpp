@@ -1,3 +1,4 @@
+#include "app_settings.h"
 #include "app_sd.h"
 #include <Arduino.h>
 //SD card

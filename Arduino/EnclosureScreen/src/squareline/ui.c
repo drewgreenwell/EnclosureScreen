@@ -7,6 +7,7 @@
 #include "ui_helpers.h"
 
 ///////////////////// VARIABLES ////////////////////
+void Grow_Animation( lv_obj_t *TargetObject, int delay);
 
 
 // SCREEN: ui_screenLoading
@@ -43,6 +44,13 @@ lv_obj_t *ui_lblTime;
 lv_obj_t *ui_lblIpAddress;
 lv_obj_t *ui_lblMosquitto;
 lv_obj_t *ui_lblWifi;
+
+
+// SCREEN: ui_screenScreenSaver
+void ui_screenScreenSaver_screen_init(void);
+void ui_event_screenScreenSaver( lv_event_t * e);
+lv_obj_t *ui_screenScreenSaver;
+lv_obj_t *ui_spinSaver;
 lv_obj_t *ui____initial_actions0;
 const lv_img_dsc_t *ui_imgset_wifi_[1] = {&ui_img_wifi_1_png};
 
@@ -55,8 +63,56 @@ const lv_img_dsc_t *ui_imgset_wifi_[1] = {&ui_img_wifi_1_png};
 #endif
 
 ///////////////////// ANIMATIONS ////////////////////
+void Grow_Animation( lv_obj_t *TargetObject, int delay)
+{
+ui_anim_user_data_t *PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+PropertyAnimation_0_user_data->target = TargetObject;
+PropertyAnimation_0_user_data->val = -1;
+lv_anim_t PropertyAnimation_0;
+lv_anim_init(&PropertyAnimation_0);
+lv_anim_set_time(&PropertyAnimation_0, 12000);
+lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_width );
+lv_anim_set_values(&PropertyAnimation_0, 0, 1000 );
+lv_anim_set_path_cb( &PropertyAnimation_0, lv_anim_path_linear);
+lv_anim_set_delay( &PropertyAnimation_0, delay + 0 );
+lv_anim_set_deleted_cb( &PropertyAnimation_0, _ui_anim_callback_free_user_data );
+lv_anim_set_playback_time(&PropertyAnimation_0, 12000);
+lv_anim_set_playback_delay(&PropertyAnimation_0, 300);
+ lv_anim_set_repeat_count(&PropertyAnimation_0, LV_ANIM_REPEAT_INFINITE );
+lv_anim_set_repeat_delay(&PropertyAnimation_0, 500);
+lv_anim_set_early_apply( &PropertyAnimation_0, false );
+ lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_width );
+lv_anim_start(&PropertyAnimation_0);
+ui_anim_user_data_t *PropertyAnimation_1_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+PropertyAnimation_1_user_data->target = TargetObject;
+PropertyAnimation_1_user_data->val = -1;
+lv_anim_t PropertyAnimation_1;
+lv_anim_init(&PropertyAnimation_1);
+lv_anim_set_time(&PropertyAnimation_1, 12000);
+lv_anim_set_user_data(&PropertyAnimation_1, PropertyAnimation_1_user_data);
+lv_anim_set_custom_exec_cb(&PropertyAnimation_1, _ui_anim_callback_set_height );
+lv_anim_set_values(&PropertyAnimation_1, 0, 1000 );
+lv_anim_set_path_cb( &PropertyAnimation_1, lv_anim_path_linear);
+lv_anim_set_delay( &PropertyAnimation_1, delay + 0 );
+lv_anim_set_deleted_cb( &PropertyAnimation_1, _ui_anim_callback_free_user_data );
+lv_anim_set_playback_time(&PropertyAnimation_1, 12000);
+lv_anim_set_playback_delay(&PropertyAnimation_1, 300);
+ lv_anim_set_repeat_count(&PropertyAnimation_1, LV_ANIM_REPEAT_INFINITE );
+lv_anim_set_repeat_delay(&PropertyAnimation_1, 500);
+lv_anim_set_early_apply( &PropertyAnimation_1, false );
+ lv_anim_set_get_value_cb(&PropertyAnimation_1, &_ui_anim_callback_get_height );
+lv_anim_start(&PropertyAnimation_1);
+
+}
 
 ///////////////////// FUNCTIONS ////////////////////
+void ui_event_screenScreenSaver( lv_event_t * e) {
+    lv_event_code_t event_code = lv_event_get_code(e);lv_obj_t * target = lv_event_get_target(e);
+if ( event_code == LV_EVENT_SCREEN_LOADED) {
+      Grow_Animation(ui_spinSaver, 0);
+}
+}
 
 ///////////////////// SCREENS ////////////////////
 
@@ -67,6 +123,7 @@ lv_theme_t *theme = lv_theme_default_init(dispp, lv_palette_main(LV_PALETTE_BLUE
 lv_disp_set_theme(dispp, theme);
 ui_screenLoading_screen_init();
 ui_screenMain_screen_init();
+ui_screenScreenSaver_screen_init();
 ui____initial_actions0 = lv_obj_create(NULL);
 lv_disp_load_scr( ui_screenLoading);
 }

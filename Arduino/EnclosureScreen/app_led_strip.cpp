@@ -1,3 +1,5 @@
+
+#include "app_settings.h"
 #include "app_led_strip.h"
 #include <Adafruit_NeoPixel.h>
 

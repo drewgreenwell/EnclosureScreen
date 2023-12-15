@@ -1,3 +1,4 @@
+#include "app_settings.h"
 #include "app_mqtt.h"
 #include <Arduino.h>
 #include <PubSubClient.h>
@@ -6,11 +7,11 @@
 
 #define MQTT_QOS 0
 
-const char *mqtt_server = "YOUR_MQTT_SERVER";
-const char *mqtt_user = "YOUR_MQTT_USER";
-const char *mqtt_pass = "YOUR_MQTT_PASS";
+const char *mqtt_server = MQTT_SERVER;
+const char *mqtt_user = MQTT_USER;
+const char *mqtt_pass = MQTT_PASSWORD;
 // set to your client id
-String clientId = "YOUR_CLIENT_ID";
+String clientId = MQTT_CLIENTID;
 
 PubSubClient mqttClient(wifiClient);
 
@@ -64,10 +65,11 @@ void loop_mqtt() {
 
 void connect_mqtt() {
   // Loop until we're reconnected
+  if(!loadComplete){
+    setLoadingText("Initializing MQTT..");
+  }
   while (!mqttClient.connected()) {
-    if(!loadComplete){
-      setLoadingText("Initializing MQTT..");
-    }
+   
     Serial.print("Attempting MQTT connection to ");
     Serial.print(mqtt_server);
     Serial.print(" ");
@@ -85,7 +87,7 @@ void connect_mqtt() {
       Serial.print("sub=");
       Serial.println(sub);
       if (!loadComplete && mqttProgress > 0) {
-        setMosquittoIcon(true);
+        setMosquittoState(true);
         setLoadingPercent(mqttProgress);
       }
     } else {

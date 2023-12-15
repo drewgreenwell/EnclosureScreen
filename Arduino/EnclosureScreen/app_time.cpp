@@ -1,3 +1,4 @@
+#include "app_settings.h"
 #include "app_time.h"
 #include <Arduino.h>
 #include <NTPClient.h>
@@ -11,12 +12,12 @@ String formattedTime;
 
 int updateInterval = 1000;
 long lastTick = 0;
-boolean loaded = false;
+bool loaded = false;
 const int secondsInHour = 3600;
 #ifdef GMT_OFFSET
 int gmtOffset = GMT_OFFSET;
 #else
-int gmtOffset = -8;
+int gmtOffset = 0;
 #endif
 
 void time_init() {

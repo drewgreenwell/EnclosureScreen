@@ -1,4 +1,7 @@
+#include "app_settings.h"
 #include "display_seven.h"
+
+#define TFT_BL 2
 
 void display_setup(){
     lcd.begin();

@@ -10,17 +10,23 @@ This repository contains a basic scaffolding to run a UI designed in SquareLine 
 
 ## In Progress
 
-This is early in dev but I plan to iterate on UI and will be incorporating more of the available components of the dispplay; e.g. SD functionality to store values from the MQTT broker for charting and the bluetooth sensor for presence detection to disable a screensaver view.
+This is early in dev but I plan to iterate on UI and will be incorporating more of the available components of the dispplay; e.g. Non UI blocking connectivity, SD functionality to store values from the MQTT broker for chart and the bluetooth sensor for presence detection to disable a screensaver view.
 
 ![loading screen](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/LoadingScreen.png)
+Loading Screen
 ![main screen](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/MainScreen.png)
+Main Screen
+![Screen Saver](https://raw.githubusercontent.com/drewgreenwell/EnclosureScreen/main/docs/ScreensaverScreen.gif)
+Screen saver. Recorded on pc. Pretty rough screen tearing on device with this iteration
 
 ## Getting Started
+
+Update app_settings.h and install dependencies
 
 ### Dependencies
 
 * LovyanGFX
-* lvgl - I am using the latest available (8.3.11 with this project). It is a good idea to stay close to squareline
+* lvgl - I am using the latest available (8.3.11 with this project). It is a good idea to stay close to squareline. 
 * ESP32S3 Dev Board - Currently using latest version available (2.0.14)
 * These dependencies can be disabled by adjusting the #define statements at the top of the sketch
     * PubSubClient, ESP32Ping - For MQTT
@@ -59,4 +65,7 @@ https://www.elecrow.com/download/product/ESP32_Display/7.0inch/7.0inch_HMI_Outli
 #### Links
 Wiki - https://www.elecrow.com/wiki/index.php?title=ESP32_Display_7.0-inch_HMI_Arduino_Tutorial
 Elecrow Squareline Tutorial - https://www.elecrow.com/blog/create-a-stunning-ui-with-squareline-studio-for-esp32-display-lvgl-tutorial.html
+LVGL - https://docs.lvgl.io/8.3/get-started/platforms/arduino.html
+SquareLine Studio - https://squareline.io/ 
+Squreline Studio Documentation - https://docs.squareline.io/docs/squareline/
 
