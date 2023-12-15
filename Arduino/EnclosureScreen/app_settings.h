@@ -43,4 +43,9 @@
 #define SCREENSAVER_ENABLED 1
 #define SCREENSAVER_TIMEOUT 10000
 
+// audio
+#define I2S_DOUT 17
+#define I2S_BCLK 42
+#define I2S_LRC  18
+
 #endif

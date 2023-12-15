@@ -12,50 +12,39 @@
 #include "app_sd.h"         // SD card setup and helpers
 #include "src/touch.h"
 
-// audio
-#define I2S_DOUT 17
-#define I2S_BCLK 42
-#define I2S_LRC  18
-
-// #define MSG_BUFFER_SIZE	(50)
-// char msg[MSG_BUFFER_SIZE];
 
 void setup() {
 
   Serial.begin(SERIAL_BAUD);
+  
   Serial.println( "begin setup" );
+  // initialize the display
   display_setup();
-
   Serial.println( "init lvgl" );
+  // initialize lvgl
   lv_init();
+  // register the display with lvgl
   display_register();
-
-  // Init touch device
+  // initialize the touchscreen
   Serial.println( "init touch" );
-  touch_init();
-  
+  touch_init();  
   Serial.println( "Register touchpad" );
-  static lv_indev_drv_t indev_drv;
-  lv_indev_drv_init(&indev_drv);
-  indev_drv.type = LV_INDEV_TYPE_POINTER;
-  indev_drv.read_cb = touchpad_read;
-  lv_indev_drv_register(&indev_drv);
-  Serial.println( "init ui" );
-  
+  // register the touchscreen with lvgl
+  touch_register();  
   // initialize the squareline ui
   ui_init();
-  // setup variables and do any prep
+  // initialize app ui. e.g. setup variables and do any prep
   appui_init();
-  
+  // initialize sd card
   sd_setup();
-
+  // initialize network
   setLoadingText( "Initializing WiFi.." );
   setLoadingPercent(33);
   Serial.println( "Setup done, init WiFi" );
   // initialize wifi, set loading screen bar to 66% when complete
   wifi_init(66);
   lv_timer_handler(); // todo swap to call backs for non-blocking wifi/mqtt connection
-  
+
 #if(TIME_ENABLED == 1)
   time_init();
 #endif
@@ -75,23 +64,15 @@ void setup() {
 long uiUpdateInterval = 5;
 long lastUiTick = 0;
 
-// testing dynamic chart updating
-long chartUpdateInterval = 5000;
-long lastChartTick = 0;
-bool swapChartData = false;
-
-long screenSaverDelay = SCREENSAVER_TIMEOUT;
-long lastScreenSaverTick = 0;
-bool screenSaverActive = false;
-
 void loop() {
-    // update the ui timer every n milliseconds
+  // update the ui timer every n milliseconds
   long now = millis();
   if(lastUiTick = 0 || now - lastUiTick > uiUpdateInterval) {
     lastUiTick = now;
     lv_timer_handler();
   }
 
+  appui_loop();
 
 #if (MQTT_ENABLED == 1)
   loop_mqtt();
@@ -105,28 +86,15 @@ void loop() {
   loop_time();
 #endif
 
-  now = millis();
-  if(now - lastChartTick > chartUpdateInterval){
-    swapChartData = !swapChartData;
-    lastChartTick = now;
-    setChartSeries1Data(ui_chartEnder, swapChartData);
-    setChartSeries1Data(ui_chartPrusa, swapChartData);
-  }
+}
 
-#if (SCREENSAVER_ENABLED == 1)
-  now = millis();
-  if(loadComplete){
-    if(now - lastScreenSaverTick > screenSaverDelay){
-      lastScreenSaverTick = now;
-      if(!screenSaverActive) {
-        screenSaverActive = true;
-        changeToScreenSaverScreen();
-      }
-    } 
-  } else {
-    lastScreenSaverTick = now;
-  }
-#endif
+void touch_register() {
+  static lv_indev_drv_t indev_drv;
+  lv_indev_drv_init(&indev_drv);
+  indev_drv.type = LV_INDEV_TYPE_POINTER;
+  indev_drv.read_cb = touchpad_read;
+  lv_indev_drv_register(&indev_drv);
+  Serial.println( "init ui" );
 }
 
 bool touchValid = false;
@@ -139,14 +107,7 @@ void touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     if (touch_touched())
     {
       #if (SCREENSAVER_ENABLED == 1)
-      // reset the screensaver idle time
-      lastScreenSaverTick = millis();
-      // if the screensaver is visible swap back to main screen
-      // todo pop from a stack or prev_screen variable
-      if(screenSaverActive) {
-        screenSaverActive = false;
-        changeToMainScreen();
-      }
+        dismissScreenSaver();
       #endif
       data->state = LV_INDEV_STATE_PR;
       if(touchValid == false && (touch_last_x > SCREEN_WIDTH || touch_last_y > SCREEN_HEIGHT)){

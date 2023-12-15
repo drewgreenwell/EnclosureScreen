@@ -5,6 +5,10 @@
  * XPT2046: https://github.com/PaulStoffregen/XPT2046_Touchscreen.git
  ******************************************************************************/
 
+#ifndef INPUT_TOUCH_ROTATION
+#define INPUT_TOUCH_ROTATION ROTATION_NORMAL
+#endif
+
 /* uncomment for FT6X36 */
 // #define TOUCH_FT6X36
 // #define TOUCH_FT6X36_SCL 19
@@ -17,9 +21,6 @@
 // #define TOUCH_MAP_Y2 320
 
 /* uncomment for GT911 */
-#ifndef INPUT_TOUCH_ROTATION
-#define INPUT_TOUCH_ROTATION ROTATION_NORMAL
-#endif
  #define TOUCH_GT911
  #define TOUCH_GT911_SCL 20//20
  #define TOUCH_GT911_SDA 19//19
@@ -38,7 +39,7 @@
 // #define TOUCH_XPT2046_MOSI 11
 // #define TOUCH_XPT2046_CS 38
 // #define TOUCH_XPT2046_INT 18
-// #define TOUCH_XPT2046_ROTATION 0
+// #define TOUCH_XPT2046_ROTATION INPUT_TOUCH_ROTATION
 // #define TOUCH_MAP_X1 4000//4000
 // #define TOUCH_MAP_X2 100 //100
 // #define TOUCH_MAP_Y1 100//100

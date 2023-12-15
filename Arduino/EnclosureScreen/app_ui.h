@@ -6,8 +6,10 @@
 extern bool loadComplete;
 
 void appui_init();
+void appui_loop();
 void changeToMainScreen();
 void changeToScreenSaverScreen();
+void dismissScreenSaver();
 void setLoadingPercent(int value);
 void setLoadingText(const char *val);
 void setTimeText(const char *val);

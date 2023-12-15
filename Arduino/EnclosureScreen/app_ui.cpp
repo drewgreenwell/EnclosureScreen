@@ -10,12 +10,47 @@
 
 bool loadComplete = false;
 
+long screenSaverDelay = SCREENSAVER_TIMEOUT;
+long lastScreenSaverTick = 0;
+bool screenSaverActive = false;
+
 lv_chart_series_t* enderSeries1;
 lv_chart_series_t* enderSeries2;
+// testing dynamic chart updating
+long chartUpdateInterval = 5000;
+long lastChartTick = 0;
+bool swapChartData = false;
+
+
 
 void appui_init() {
   enderSeries1 = getChartSeries1(ui_chartEnder);
   enderSeries2 = getChartSeries2(ui_chartEnder, enderSeries1);
+}
+
+void appui_loop() {
+ long now = millis();
+  if(now - lastChartTick > chartUpdateInterval){
+    swapChartData = !swapChartData;
+    lastChartTick = now;
+    setChartSeries1Data(ui_chartEnder, swapChartData);
+    setChartSeries1Data(ui_chartPrusa, swapChartData);
+  }
+
+#if (SCREENSAVER_ENABLED == 1)
+  now = millis();
+  if(loadComplete){
+    if(now - lastScreenSaverTick > screenSaverDelay){
+      lastScreenSaverTick = now;
+      if(!screenSaverActive) {
+        screenSaverActive = true;
+        changeToScreenSaverScreen();
+      }
+    } 
+  } else {
+    lastScreenSaverTick = now;
+  }
+#endif
 }
 
 void changeToMainScreen( ) {
@@ -26,6 +61,17 @@ void changeToMainScreen( ) {
 void changeToScreenSaverScreen() {
   _ui_screen_change( &ui_screenScreenSaver, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_screenScreenSaver_screen_init);
   // getFreeMemory();
+}
+
+void dismissScreenSaver() {
+  // reset the screensaver idle time
+  lastScreenSaverTick = millis();
+  // if the screensaver is visible swap back to main screen
+  // todo pop from a stack or prev_screen variable
+  if(screenSaverActive) {
+    screenSaverActive = false;
+    changeToMainScreen();
+  }
 }
 
 uint32_t getFreeMemory() {
