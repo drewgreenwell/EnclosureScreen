@@ -3,7 +3,7 @@
 #include <WiFi.h>
 
 extern WiFiClient wifiClient;
-void wifi_init(int progress);
+void wifi_setup(int progress);
 void WiFiEvent(WiFiEvent_t event);
 
 #endif

@@ -20,7 +20,7 @@ int gmtOffset = GMT_OFFSET;
 int gmtOffset = 0;
 #endif
 
-void time_init() {
+void time_setup() {
   // Initialize a NTPClient to get time
   timeClient.begin();
   // Set offset time in seconds to adjust for your timezone, for example:
@@ -31,7 +31,7 @@ void time_init() {
   timeClient.setTimeOffset(secondsInHour * gmtOffset);
 }
 
-void loop_time() {
+void time_loop() {
   long now = millis();
   if (now - lastTick > updateInterval) {
     lastTick = now;
@@ -46,17 +46,7 @@ void updateTime() {
   } else {
     timeClient.update();
   }
+  // hh:mm:ss
   formattedTime = timeClient.getFormattedTime();
-  // Serial.println(formattedTime);
-
-  // Extract date
-  // int splitT = formattedDate.indexOf("T");
-  // dayStamp = formattedDate.substring(0, splitT);
-  // Serial.print("DATE: ");
-  // Serial.println(dayStamp);
-  // // Extract time
-  // timeStamp = formattedDate.substring(splitT+1, formattedDate.length()-1);
-  // Serial.print("HOUR: ");
-  // Serial.println(timeStamp);
   setTimeText(formattedTime.c_str());
 }

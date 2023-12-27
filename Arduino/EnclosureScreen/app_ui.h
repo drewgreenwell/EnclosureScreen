@@ -5,7 +5,7 @@
 
 extern bool loadComplete;
 
-void appui_init();
+void appui_setup();
 void appui_loop();
 void changeToMainScreen();
 void changeToScreenSaverScreen();

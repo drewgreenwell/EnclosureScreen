@@ -36,7 +36,7 @@ void mqtt_callback(char* topic, byte* payload, unsigned int length) {
 // amount to display in progress bar when connected if loading
 int mqttProgress = 0;
 
-void mqtt_init(int progress) {
+void mqtt_setup(int progress) {
   mqttProgress = progress;
   mqttClient.setServer(mqtt_server, 1883);
   mqttClient.setCallback(mqtt_callback);
@@ -47,7 +47,7 @@ boolean started = false;
 long lastMqttTick = 0;
 int mqttStartupDelay = 3000; // add a small delay to let ui update
 
-void loop_mqtt() {
+void mqtt_loop() {
   if (!started) {
     long now = millis();
     if(lastMqttTick == 0) {

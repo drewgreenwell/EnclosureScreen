@@ -5,7 +5,7 @@
 
 extern WiFiClient wifiClient;
 void mqtt_callback(char* topic, byte* payload, unsigned int length);
-void mqtt_init(int progress);
+void mqtt_setup(int progress);
 void connect_mqtt();
-void loop_mqtt();
+void mqtt_loop();
 #endif

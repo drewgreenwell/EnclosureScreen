@@ -23,7 +23,7 @@ bool swapChartData = false;
 
 
 
-void appui_init() {
+void appui_setup() {
   enderSeries1 = getChartSeries1(ui_chartEnder);
   enderSeries2 = getChartSeries2(ui_chartEnder, enderSeries1);
 }

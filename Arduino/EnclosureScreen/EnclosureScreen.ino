@@ -1,4 +1,4 @@
-// global include for app settings
+// app_settings.h includes all defines/settings related to the app
 // wifi/mqtt credentials, toggle functionality, sreen/input rotation, time, etc.
 #include "app_settings.h"
 #include "src/squareline/ui.h"
@@ -19,12 +19,9 @@ void setup() {
   
   Serial.println( "begin setup" );
   // initialize the display
-  display_setup();
-  Serial.println( "init lvgl" );
   // initialize lvgl
-  lv_init();
   // register the display with lvgl
-  display_register();
+  display_setup();
   // initialize the touchscreen
   Serial.println( "init touch" );
   touch_init();  
@@ -34,7 +31,7 @@ void setup() {
   // initialize the squareline ui
   ui_init();
   // initialize app ui. e.g. setup variables and do any prep
-  appui_init();
+  appui_setup();
   // initialize sd card
   sd_setup();
   // initialize network
@@ -42,17 +39,17 @@ void setup() {
   setLoadingPercent(33);
   Serial.println( "Setup done, init WiFi" );
   // initialize wifi, set loading screen bar to 66% when complete
-  wifi_init(66);
+  wifi_setup(66);
   lv_timer_handler(); // todo swap to call backs for non-blocking wifi/mqtt connection
 
 #if(TIME_ENABLED == 1)
-  time_init();
+  time_setup();
 #endif
   
 #if (MQTT_ENABLED == 1)
   Serial.println("WiFi is connected, init mqtt");
   // initialize mqtt, set loading screen bar to 100% when complete
-  mqtt_init(100);
+  mqtt_setup(100);
 #else
   Serial.println("WiFi is connected");
   setLoadingPercent(100);
@@ -71,19 +68,22 @@ void loop() {
     lastUiTick = now;
     lv_timer_handler();
   }
-
+  // update charts, show screensaver, etc.
   appui_loop();
 
 #if (MQTT_ENABLED == 1)
-  loop_mqtt();
+  // check mqtt connection
+  mqtt_loop();
 #endif
 
 #if (LED_STRIP_ENABLED == 1)
-  loop_led_strip();
+  // run led animations
+  led_strip_loop();
 #endif
 
 #if (TIME_ENABLED == 1)
-  loop_time();
+  // update time from ntpclient
+  time_loop();
 #endif
 
 }

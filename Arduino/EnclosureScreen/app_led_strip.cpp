@@ -16,7 +16,7 @@ long ledDelayInterval = 100;
 long ledLastTick = 0;
 int ledIndex = 0;
 
-void loop_led_strip () {
+void led_strip_loop () {
   led_animation_loop();
 }
 

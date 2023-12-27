@@ -4,22 +4,28 @@
 #define TFT_BL 2
 
 void display_setup(){
+  // initialize display
+  display_init();
+  // initialize lvgl
+  lv_init();
+  // register the display with lvgl
+  display_register();
+}
+
+void display_init() {
     lcd.begin();
     lcd.fillScreen(TFT_BLACK);
     lcd.setTextSize(2);
     lcd.setRotation(SCREEN_ROTATION);
     delay(300);
-
-  #ifdef TFT_BL
     Serial.println( "init TFT BL" );
     pinMode(TFT_BL, OUTPUT);
     digitalWrite(TFT_BL, HIGH);
     ledcSetup(1, 300, 8);
     ledcAttachPin(TFT_BL, 1);
     ledcWrite(1, 255); /* Screen brightness can be modified by adjusting this parameter. (0-255) */
-
-  #endif
 }
+
 
 /* Display flushing */
 void display_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)

@@ -19,7 +19,7 @@ WiFiClient wifiClient;
 // amount to display in progress bar when connected if loading
 int wifiProgress = 0;
 
-void wifi_init(int progress) {
+void wifi_setup(int progress) {
   // WiFi.mode(WIFI_STA);
   wifiProgress = progress;
   WiFi.disconnect();
